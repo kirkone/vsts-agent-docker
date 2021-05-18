@@ -1,0 +1,11 @@
+# escape=`
+FROM mcr.microsoft.com/windows/servercore:ltsc2019
+
+SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
+
+WORKDIR C:\TFS
+
+COPY ./Run-Agent.ps1 .
+COPY ./Cleanup-Agent.ps1 .
+
+ENTRYPOINT try {C:\TFS\Run-Agent.ps1;}finally {C:\TFS\Cleanup-Agent.ps1;}
